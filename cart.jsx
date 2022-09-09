@@ -1,5 +1,5 @@
 // simulate getting products from DataBase
-const products = [
+let products = [
   { name: "Apples_:", country: "Italy", cost: 3, instock: 10 },
   { name: "Oranges:", country: "Spain", cost: 4, instock: 3 },
   { name: "Beans__:", country: "USA", cost: 2, instock: 5 },
@@ -122,7 +122,8 @@ const Products = (props) => {
         <Button variant="primary" size="large">
           {item.name}:{item.cost}-stock={item.instock}
         </Button>
-        <input name={item.name} type="submit" onClick={addToCart}></input>
+        {/* <input name={item.name} type="submit" onClick={addToCart}></input> */}
+        <Button name={item.name} variant='dark' size='small' onClick={addToCart}>add</Button>
       </li>
     );
   });
@@ -131,12 +132,12 @@ const Products = (props) => {
       <Accordion.Item key={1+index} eventkey={1 + index}>
       <Accordion.Header>
         {item.name}
-     
+    
       </Accordion.Header>
       <Accordion.Body onClick={() => deleteCartItem(index)}
-        eventKey={1 + index}>
+        eventkey={1 + index}>
         $ {item.cost} from {item.country}
-           <Button onClick={deleteCartItem}>delete</Button>
+          <Button onClick={deleteCartItem}>delete</Button>
       </Accordion.Body>
     </Accordion.Item>
     );
@@ -155,6 +156,7 @@ const Products = (props) => {
   };
 
   const checkOut = () => {
+
     let costs = cart.map((item) => item.cost);
     const reducer = (accum, current) => accum + current;
     let newTotal = costs.reduce(reducer, 0);
@@ -162,7 +164,12 @@ const Products = (props) => {
     return newTotal;
   };
   // TODO: implement the restockProducts function
-  const restockProducts = (url) => {};
+  const restockProducts = (url) => {
+    console.log('url:',url)
+    const data = doFetch(url);
+    
+    
+  };
 
   return (
     <Container>
@@ -184,7 +191,7 @@ const Products = (props) => {
       <Row>
         <form
           onSubmit={(event) => {
-            restockProducts(`http://localhost:1337/api/${query}`);
+            restockProducts(`${query}`);
             console.log(`Restock called on ${query}`);
             event.preventDefault();
           }}
