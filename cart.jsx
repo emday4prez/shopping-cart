@@ -171,19 +171,33 @@ const Products = (props) => {
     return newTotal;
   };
   // TODO: implement the restockProducts function
- const restockProducts = (url) => {
+
+
+  const restockProducts = (url) => {
     doFetch(url);
-    console.log(url)
-    let newItems = data.data
-    console.log('data.data',data.data) // The  whole list
-    newItems.map((item) => {
-      console.log(item.attributes.country) // Example of accessing a field
-      let { name, country, cost, instock } = item.attributes;
-      return { name, country, cost, instock };
+    const res = data.data; // Data object is nested in response
+    const tempItems = res.map((item) => {
+      const id = Math.floor(Math.random() * 1000)
+      const { name, cost, country, instock } = item.attributes;
+      return { id, name, cost, country, instock, inCart: 0 };
     });
-    console.log('newItems', newItems)
-    setItems([...items, ...newItems]);
+    console.log(tempItems);
+    setItems([...items, ...tempItems]);
   };
+
+//  const restockProducts = (url) => {
+//     doFetch(url);
+//     console.log(url)
+//     let newItems = data.data
+//     console.log('data.data',data.data) // The  whole list
+//     newItems.map((item) => {
+//       console.log(item.attributes.country) // Example of accessing a field
+//       let { name, country, cost, instock } = item.attributes;
+//       return { name, country, cost, instock };
+//     });
+//     console.log('newItems', newItems)
+//     setItems([...items, ...newItems]);
+//   };
 
   return (
     <Container>
