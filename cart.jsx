@@ -129,8 +129,8 @@ const Products = (props) => {
         <Button variant="primary" size="large">
           {item.name}:{item.cost}-stock={item.instock}
         </Button>
-        {/* <input name={item.name} type="submit" onClick={addToCart}></input> */}
-        <Button name={item.name} variant='dark' size='small' onClick={addToCart}>add</Button>
+        <input name={item.name} type="submit" onClick={addToCart}></input>
+        {/* <Button name={item.name} variant='dark' size='small' onClick={addToCart}>add</Button> */}
       </li>
     );
   });
@@ -171,13 +171,18 @@ const Products = (props) => {
     return newTotal;
   };
   // TODO: implement the restockProducts function
-  const restockProducts =  (url) => {
-   let data = doFetch(url);
-    let newItems = data.map((item) => {
-      let { name, country, cost, instock } = item;
+ const restockProducts = (url) => {
+    doFetch(url);
+    console.log(url)
+    let newItems = data.data
+    console.log('data.data',data.data) // The  whole list
+    newItems.map((item) => {
+      console.log(item.attributes.country) // Example of accessing a field
+      let { name, country, cost, instock } = item.attributes;
       return { name, country, cost, instock };
     });
-    setItems([...items, ...newItems]);    
+    console.log('newItems', newItems)
+    setItems([...items, ...newItems]);
   };
 
   return (
